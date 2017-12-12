@@ -77,7 +77,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 * 存证工具包可以通过存证客户端gradle run生成；或者直接下载，下载https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence_toolkit
 * 下载完成之后建议对bin文件夹下的文件执行chmod命令。
 * 安装fisco-solc,fisco-solc为solidity编译器。
-	下载地址为：
+	下载地址为：https://github.com/FISCO-BCOS/FISCO-BCOS/fisco-solc
 	将下载下来的fisco-solc，将fisco-solc拷贝到/usr/bin目录下，执行命令chmod +x fisco-solc。如此fisco-solc即安装完成。
 * 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本。
 * 根据需求情况更新公私钥（需要3组），公钥以key-value的形式在applicationContext.xml中配置，私钥更新需要替换conf文件下的私钥文件。若无特殊需求可以不用更新公私钥。
