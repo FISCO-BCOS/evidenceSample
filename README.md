@@ -1,35 +1,9 @@
-<html>
-<head>
-<style>
-*
-{
-   font-family: 仿宋;
-}
-
-@media screen {
-  div.divFooter {
-    display: none;
-  }
-}
-@media print {
-  div.divFooter {
-    position: fixed;
-    bottom: 0;
-  }
-}
-</style>
-
-</head>
-<body>
-</body>
-</html>  
-
 <center> <h1>区块链存证案例使用说明</h1> </center>
 
 # 一、 背景介绍
-* BCOS区块链存证是聚焦于企业级应用服务的区块链技术平台，从电子数据的全生命周期介入，实现区块链存证、取证、维权、核证，让司法机构参与到业务过程中，实时见证，为后续的证据核实、纠纷解决、裁决送达提供了可信、可追溯、可证明的技术保障。适用场景：金融行业网络信贷、消费金融、理财等，重点解决可信和司法认可。 <br><br>
+* FISCO-BCOS区块链存证是聚焦于企业级应用服务的区块链技术平台，从电子数据的全生命周期介入，实现区块链存证、取证、维权、核证，让司法机构参与到业务过程中，实时见证，为后续的证据核实、纠纷解决、裁决送达提供了可信、可追溯、可证明的技术保障。适用场景：金融行业网络信贷、消费金融、理财等，重点解决可信和司法认可。 <br><br>
 
-* 区块链存证示例是基于BCOS区块链开发的应用案例。示例使用智能合约对存证进行管理，使用分层的智能合约结构： <br>
+* 区块链存证示例是基于FISCO-BCOS区块链开发的应用案例。示例使用智能合约对存证进行管理，使用分层的智能合约结构： <br>
  1）工厂合约，由存证各方事前约定，存储存证生效条件，并管理存证的生成。 <br>
  2）存证合约，由工厂合约生成，存储存证id，hash和各方签名（每张存证一个合约）。 <br>
 两层智能合约的设计，可以使系统获得更好的扩展性。示例使用三个角色（用户、存证机构、仲裁机构）来说明一个典型的电子存证场景。关键业务为证据上链，多方签署，链上取证。 <br>
@@ -37,9 +11,9 @@
 
 # 二、存证案例运行环境搭建
 1. 本文档使用单个区块链节点来模拟区块链环境。
-2. 搭建BCOS区块链环境（参考BCOS使用文档），操作系统为Ubuntu(建议16.04)或CentOS（建议7.2）。
+2. 搭建FISCO-BCOS区块链环境（参考FISCO-BCOS使用文档），操作系统为Ubuntu(建议16.04)或CentOS（建议7.2）。
 3. 将存证客户端导入Eclipse（本说明文档以Eclipse为例），配置JDK（1.8）。 <br>
-    存证客户端下载URL：http://git.weoa.com/ttip/evidenceSample/tree/master/evidence
+    存证客户端下载URL：https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence
 4. 在配置文件applicationContext.xml中配置区块链节点信息，具体参照第三节区块链节点信息配置。
 5. 更新签名机构公私钥（示例演示可以直接使用sample提供公私钥），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的私钥文件，具体参照下一节中角色公钥配置说明。
  
@@ -100,7 +74,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 本节提供使用示例工具包，以便开发者能够快速熟悉存证应用。在工具包中，bin文件下为执行脚本，conf文件夹下为工具包配置文件，lib文件下为存证案例依赖包,contracts中存放合约源码（合约java代码生成可以参照4.7）
 
-* 存证工具包可以通过存证客户端gradle run生成；或者直接下载，下载URL：http://git.weoa.com/ttip/evidenceSample/tree/master/evidence_toolkit
+* 存证工具包可以通过存证客户端gradle run生成；或者直接下载，下载https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence_toolkit
 * 下载完成之后建议对bin文件夹下的文件执行chmod命令。
 * 安装fisco-solc,fisco-solc为solidity编译器。
 	下载地址为：
@@ -232,7 +206,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 # 五、存证客户端使用
 
-存证客户端的入口为org.bcos.evidence.app.Main类，客户端中对合约的调用主要包括：web3j的初始化，合约对象部署，载入已经部署的合约，创建证据，发送签名数据，获取证据信息，以及证据校验。区块链应用程序实际是通过web3j生成的java Wrapper类(详细介绍参看4.7合约编译及java Wrap代码生成)，通过jsonRPC调用和BCOS客户端节点通信，再由客户端返回jsonRPC请求响应。
+存证客户端的入口为org.bcos.evidence.app.Main类，客户端中对合约的调用主要包括：web3j的初始化，合约对象部署，载入已经部署的合约，创建证据，发送签名数据，获取证据信息，以及证据校验。区块链应用程序实际是通过web3j生成的java Wrapper类(详细介绍参看4.7合约编译及java Wrap代码生成)，通过jsonRPC调用和FISCO-BCOS客户端节点通信，再由客户端返回jsonRPC请求响应。
 
 1、web3j初始化 
 
