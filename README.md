@@ -294,3 +294,8 @@ List<Type> result2 = evidence.getEvidence().get();
             return false;
         }
     }
+
+
+
+
+如果您觉得本文不错，欢迎[戳这里](https://github.com/FISCO-BCOS/FISCO-BCOS)给FISCO BCOS打star:star:。
