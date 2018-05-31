@@ -59,7 +59,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
  					<bean class="org.bcos.channel.handler.ChannelConnections">
  						<property name="connectionsStr">
  							<list> 
-                               <value>User@10.107.105.26:8541</value><!-- 格式：节点nodeId@IP地址:链上链下端口-->
+                                                             <value>User@10.107.105.26:8541</value><!-- 格式：节点nodeId@IP地址:链上链下端口-->
  							</list>
  						</property>
  					</bean>
@@ -294,8 +294,8 @@ List<Type> result2 = evidence.getEvidence().get();
             return false;
         }
     }
-
-
+## （六）[FISCO-BCOS中client.keystore 的生成方法](https://github.com/FISCO-BCOS/web3sdk/issues/20)
+## （七）[web3sdk的使用方式](https://github.com/FISCO-BCOS/web3sdk)
 
 
 如果您觉得本文不错，欢迎[戳这里](https://github.com/FISCO-BCOS/FISCO-BCOS)给FISCO BCOS打star:star:。
