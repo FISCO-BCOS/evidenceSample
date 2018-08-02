@@ -1,5 +1,6 @@
 package org.bcos.evidence.app;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Key;
@@ -74,8 +75,6 @@ public class BcosApp {
 	    Service service = context.getBean(Service.class);
 	    service.run();
 	    PublicAddressConf conf = context.getBean(PublicAddressConf.class);
-	    Thread.sleep(3000);
-		
         ConcurrentHashMap<String, String> addressConf = conf.getAllPublicAddress();
         ArrayList<Address> arrayList = addressConf.values().stream().map(Address::new).collect(Collectors.toCollection(ArrayList::new));
         DynamicArray<Address> evidenceSigners = new DynamicArray<Address>(arrayList);
@@ -108,8 +107,7 @@ public class BcosApp {
 		TransactionReceipt receipt = null;
 		try {
 			Sign.SignatureData signatureData = Tools.stringToSignatureData(sign_data);
-			System.out.println("正在执行！请稍等！");
-			Thread.sleep(3000);
+			System.out.println("正在执行！");
 			receipt = evidenceSignersData.newEvidence(new Utf8String(evidence_hash),new Utf8String(evidence_id),new Utf8String(evidence_id),new Uint8(signatureData.getV()),new Bytes32(signatureData.getR()),new Bytes32(signatureData.getS())).get();
 			List<EvidenceSignersData.NewEvidenceEventEventResponse> newEvidenceList = evidenceSignersData.getNewEvidenceEventEvents(receipt);
 			if (newEvidenceList.size() > 0) {
@@ -138,8 +136,7 @@ public class BcosApp {
 	            {
 	                throw new SignatureException();
 	            }
-	            System.out.println("开始发送！请稍等！");
-	            Thread.sleep(3000);
+	            System.out.println("开始发送！");
 	            TransactionReceipt receipt = evidence.addSignatures(new Uint8(signature.getV()),
 	                    new Bytes32(signature.getR()),
 	                    new Bytes32(signature.getS())).get();
@@ -170,7 +167,6 @@ public class BcosApp {
 		Evidence evidence = Evidence.load(transactionHash, web3j, credentials,  gasPrice, gasLimited);
 		EvidenceData evidenceData = new EvidenceData();
 		try {
-			Thread.sleep(3000);
 			List<Type> result2 = evidence.getEvidence().get();
             if (result2.size() >= 6) {
                 evidenceData.setEvidenceHash(((Utf8String) result2.get(0)).getValue());
@@ -256,7 +252,14 @@ public class BcosApp {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			ksInputStream.close();
+			try {
+			    if(null != ksInputStream)
+			    {
+				    ksInputStream.close();
+			    }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	    return null;
     }
