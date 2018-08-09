@@ -18,6 +18,10 @@ repositories {
     mavenCentral()
 }
 
+List alibaba = [
+ 	'com.alibaba:druid:1.0.29',
+ 	'com.alibaba:fastjson:1.2.29'
+]
 
 List logger = [
 	"org.slf4j:jul-to-slf4j:1.7.10",
@@ -39,8 +43,8 @@ List spring =[
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile logger,spring
-    runtime logger,spring
+    compile logger,spring,alibaba
+    runtime logger,spring,alibaba
     
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
     runtime "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
@@ -52,8 +56,6 @@ dependencies {
    	runtime 'com.google.guava:guava:19.0'
    	compile files('lib/web3sdk.jar')
 	runtime files('lib/web3sdk.jar')
-	compile files('lib/fastjson-1.2.24.jar')
-	runtime files('lib/fastjson-1.2.24.jar')
    	// web3j依赖
    	compile 'org.apache.httpcomponents:httpclient:4.5.2',
             'org.bouncycastle:bcprov-jdk15on:1.54',

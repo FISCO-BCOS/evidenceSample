@@ -21,14 +21,6 @@ public class Main {
 		BcosApp app = new BcosApp();
 		Address address=null;
 		Address newEvidenceAddress=null;
-		
-		//String[] aa=new String[]{"deploy","user.jks","123456","123456"};
-		//String[] aa=new String[]{"new","user.jks","123456","123456","0x6e0c52b464500595299ec7ce2bd920db2694eef3","6","7"};
-		//String[] aa=new String[]{"send","depositor.jks","123456","123456","0x340b96ece94082919f89599d0dd7d358045aa86e"};
-		//String[] aa=new String[]{"send","arbitrator.jks","123456","123456","0x340b96ece94082919f89599d0dd7d358045aa86e"};
-		//String[] aa=new String[]{"get","user.jks","123456","123456","0x340b96ece94082919f89599d0dd7d358045aa86e"};
-		//String[] aa=new String[]{"verify","user.jks","123456","123456","0x340b96ece94082919f89599d0dd7d358045aa86e"};
-		//args=aa;
 		boolean configure = app.loadConfig();
 		if(args.length<4)
 		{
