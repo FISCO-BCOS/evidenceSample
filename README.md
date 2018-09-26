@@ -4,19 +4,68 @@
 * FISCO-BCOS区块链存证是聚焦于企业级应用服务的区块链技术平台，从电子数据的全生命周期介入，实现区块链存证、取证、维权、核证，让司法机构参与到业务过程中，实时见证，为后续的证据核实、纠纷解决、裁决送达提供了可信、可追溯、可证明的技术保障。适用场景：金融行业网络信贷、消费金融、理财等，重点解决可信和司法认可。 <br><br>
 
 * 区块链存证示例是基于FISCO-BCOS区块链开发的应用案例。示例使用智能合约对存证进行管理，使用分层的智能合约结构： <br>
- 1）工厂合约（EvidenceSignersData.sol），由存证各方事前约定，存储存证生效条件，并管理存证的生成。 <br>
- 2）存证合约（Evidence.sol），由工厂合约生成，存储存证id，hash和各方签名（每张存证一个合约）。 <br>
-两层智能合约的设计，可以使系统获得更好的扩展性。示例使用三个角色（用户、存证机构、仲裁机构）来说明一个典型的电子存证场景。关键业务为证据上链，多方签署，链上取证。 <br>
-本文档旨在帮助开发者快速入门区块链存证应用开发。
+   1）工厂合约（EvidenceSignersData.sol），由存证各方事前约定，存储存证生效条件，并管理存证的生成。 <br>
+    2）存证合约（Evidence.sol），由工厂合约生成，存储存证id，hash和各方签名（每张存证一个合约）。 <br>
+   两层智能合约的设计，可以使系统获得更好的扩展性。示例使用三个角色（用户、存证机构、仲裁机构）来说明一个典型的电子存证场景。关键业务为证据上链，多方签署，链上取证。 <br>
+   本文档旨在帮助开发者快速入门区块链存证应用开发。
 
 # 二、存证案例运行环境搭建
+
 1. 本文档使用单个区块链节点来模拟区块链环境。
+
 2. 搭建FISCO-BCOS区块链环境（参考FISCO-BCOS使用文档），操作系统为Ubuntu(建议16.04)或CentOS（建议7.2）。
+
 3. 将存证客户端导入Eclipse（本说明文档以Eclipse为例），配置JDK（1.8）。 <br>
     存证客户端下载URL：https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence
-4. 在配置文件applicationContext.xml中配置区块链节点信息，具体参照第三节区块链节点信息配置。
-5. 更新签名机构公私钥（示例演示可以直接使用sample提供公私钥），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的私钥文件，具体参照下一节中角色公钥配置说明。
- 
+
+4. 在文件applicationContext.xml中配置区块链节点信息，具体参照第三节区块链节点信息配置。
+
+5. 更新签名机构公私钥（示例演示可以直接使用sample提供公私钥），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的.jks文件，配置和生成公私钥参照下一节中角色公钥配置说明。
+
+6. **生成并替换替换客户端证书**
+
+    存证客户端证书ca.crt, client.keystore生成方法请参考[FISCO-BCOS区块链操作手册的生成sdk证书](https://github.com/FISCO-BCOS/FISCO-BCOS/tree/master/doc/manual#24-生成sdk证书)一节。<br>，证书生成后，替换拉取的源码中的ca.crt, client.keystore文件，若使用直接拉取下来的工具包，ca.crt,、client.keystore文件也需替换。
+    具体步骤可以参考[sdk.sh](https://github.com/FISCO-BCOS/FISCO-BCOS/blob/master/cert/sdk.sh),详细解释如下：<br>
+    (1)将链的根ca证书ca.crt和次级的机构ca证书agency.crt合成证书链ca证书ca.crt。此证书用来验证sdk连接节点的节点证书的合法性。具体步骤为：<br>
+
+    ```shell
+    cp ca.crt ca-agency.crt
+    more agency.crt | cat >>ca-agency.crt
+    mv ca-agency.crt ca.crt
+    ```
+
+    (2)生成client.keystore。其中的client证书有三种用途：1、用作和节点连接是sdk的身份证书，由节点的ca.crt和agency.crt来验证合法性。2、用作和其他sdk（前置）连接的身份证书，由其他sdk的ca.crt来验证合法性。3、用作sdk发交易的私钥证书。<br>
+    先用openssl生成一张secp256k1的证书sdk.crt。<br>
+
+    ```shell
+        openssl ecparam -out sdk.param -name secp256k1
+        openssl ecparam -out sdk.param -name secp256k1
+        openssl genpkey -paramfile sdk.param -out sdk.key
+        openssl pkey -in sdk.key -pubout -out sdk.pubkey
+        openssl req -new -key sdk.key -config cert.cnf  -out sdk.csr
+        openssl x509 -req -days 3650 -in sdk.csr -CAkey agency.key -CA agency.crt -force_pubkey sdk.pubkey -out sdk.crt -CAcreateserial -extensions v3_req -extfile cert.cnf
+    ```
+
+    再将生成的sdk证书导入到client.keystore中。下面步骤中的第一步是中间步骤，用于生成导入keystore的p12文件。<br>
+
+    ```shell
+        openssl pkcs12 -export -name client -in sdk.crt -inkey sdk.key -out keystore.p12
+        keytool -importkeystore -destkeystore client.keystore -srckeystore keystore.p12 -srcstoretype pkcs12 -alias client
+    ```
+
+    (3)加载client.keystore中私钥作为交易私钥的示例代码<br>
+
+    ```
+       KeyStore ks = KeyStore.getInstance("JKS");
+       ksInputStream =  Ethereum.class.getClassLoader().getResourceAsStream(keyStoreFileName);
+       ks.load(ksInputStream, keyStorePassword.toCharArray());
+       Key key = ks.getKey("client", keyPassword.toCharArray());
+       ECKeyPair keyPair = ECKeyPair.create(((ECPrivateKey) key).getS());
+       Credentials credentials = Credentials.create(keyPair);
+    ```
+
+    <br>
+
 # 三、 存证案例配置文件说明
 
 ```
@@ -42,8 +91,8 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 * 配置中key=User代表用户角色，对应的私钥文件为user.jks；key=Arbitrator代表仲裁机构，对应的私钥文件为arbitrator.jks；key=Depositor代表存证机构，对应的私钥文件为depositor.jks。
 
-* 按照上面的key-value的格式写入3个角色所对应的公钥，在/evidence/src/main/resources这个文件夹下放入角色所对应的私钥。
-私钥是由linux系统下java JDK/bin中的keytool工具生成的（生成命令如下），私钥生成后，可以通过私钥调用接口生成需要的公钥，具体操作可参照<a name="host_node" id="host_node">4.6. 获取公钥</a>
+* 按照上面的key-value的格式写入3个角色所对应的公钥，在/evidence/src/main/resources文件夹下放入角色所对应的私钥。
+  私钥是由linux系统下java JDK/bin中的keytool工具生成的（生成命令如下），私钥生成后，可以通过私钥调用接口生成需要的公钥，具体操作可参照<a name="host_node" id="host_node">4.6. 获取公钥</a>
 
         keytool -genkeypair -alias ec -keyalg EC -keysize 256 -sigalg SHA256withECDSA  -validity 365 -storetype JKS -
         keystore user.jks -storepass 123456
@@ -51,37 +100,35 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 2、区块链节点信息配置：
 
-     <bean id="channelService" class="org.bcos.channel.client.Service">
-		<property name="orgID" value="User" /><!-- 配置角色名称 -->
-		<property name="allChannelConnections">
-			<map>
- 		       <entry key="User"><!-- 配置本角色的区块链节点列表-->
- 					<bean class="org.bcos.channel.handler.ChannelConnections">
- 						<property name="connectionsStr">
- 							<list> 
-                                                             <value>User@127.0.0.1:8541</value><!-- 格式：节点nodeId@IP地址:链上链下端口-->
- 							</list>
- 						</property>
- 					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
-
-
+    <bean id="channelService" class="org.bcos.channel.client.Service">
+    	<property name="orgID" value="User" /><!-- 配置角色名称 -->
+    	<property name="allChannelConnections">
+    		<map>
+    		 		<entry key="User"><!-- 配置本角色的区块链节点列表-->
+     					<bean class="org.bcos.channel.handler.ChannelConnections">
+     						<property name="connectionsStr">
+     							<list> 
+                                    <value>User@127.0.0.1:8541</value><!-- 格式：nodeId@IP:channelPort-->
+    							</list>
+     						</property>
+     					</bean>
+    				</entry>
+    		</map>
+    	</property>
+    </bean>
 # 四、存证案例工具包使用说明
 
 本节提供使用示例工具包，以便开发者能够快速熟悉存证应用。在工具包中，bin文件下为执行脚本，conf文件夹下为工具包配置文件，lib文件下为存证案例依赖包,contracts中存放合约源码（合约java代码生成可以参照4.7）
 
-* 存证工具包可以通过存证客户端gradle run生成；或者直接下载，下载https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence_toolkit
+* 存证工具包可以通过存证客户端gradle build生成；或者直接下载，下载https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence_toolkit
 * 下载完成之后建议对bin文件夹下的文件执行chmod命令。
 * 安装fisco-solc,fisco-solc为solidity编译器。
-	下载地址为：https://github.com/FISCO-BCOS/FISCO-BCOS/fisco-solc
-	将下载下来的fisco-solc，将fisco-solc拷贝到/usr/bin目录下，执行命令chmod +x fisco-solc。如此fisco-solc即安装完成。
-* 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本。
-* 根据需求情况更新公私钥（需要3组），公钥以key-value的形式在applicationContext.xml中配置，私钥更新需要替换conf文件下的私钥文件。若无特殊需求可以不用更新公私钥。
+  下载地址为：https://github.com/FISCO-BCOS/FISCO-BCOS/fisco-solc
+  fisco-solc安装：将fisco-solc拷贝到系统的/usr/bin目录下，执行命令chmod +x  fisco-solc。
+* 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本，runEvidence.sh为存证的一键默认执行脚本，脚本中将存证sample工具包的执行命令进行封装。
+* 根据实际需求更新公私钥（需要3组），公钥以key-value的形式在applicationContext.xml中配置，私钥更新需要替换conf文件下的.jks私钥文件。若无特殊需求可以不用更新公私钥,直接使用默认配置即可。
 * 在applicationContext.xml文件中配置区块链节点信息，具体参照上文。
+* 生成并替换替换工具包证书，具体参照上文。
 
 1、工厂合约部署
 
@@ -94,13 +141,11 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 参数说明：
 
-* 在上面的命令中需要传入4个参数，第一个参数固定不可修改。后面三个参数依赖conf中的私钥的文件(直接输入文件名，并非路径)。keyStoreFileName：私钥文件名、keyStorePassword：keyStore密码、key：密码。
+* 在上面的命令中需要传入4个参数，第一个参数固定不可修改。后面三个参数依赖conf中的私钥的文件(直接输入文件名，并非路径)。keyStoreFileName：私钥文件名;keyStorePassword、keyPassword分别为证书生成时输入的keyStore密码和key密码。
 
 控制台显示结果：
 
     deploy factoryContract success, address: deployAddress.（部署工厂合约返回地址）
-
-
 2、用户创建新证据
 
 进入到bin文件下，在控制台输入命令：
@@ -116,9 +161,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 
 控制台显示结果：
 
-    newEvidence success, newEvidenceAddress: newEvidenceAddress（创建证据返回地址）
-	
-
+    newEvidence success, newEvidenceAddress: newEvidenceAddress（创建证据返回地址）	
 3、发送签名上链
 
 进入到bin文件下，在控制台输入命令：
@@ -139,8 +182,6 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 控制台显示结果：
 
     sendSignatureToBlockChain success：true
-
-
 4、获取证据
 
 进入到bin文件下，在控制台输入命令：
@@ -177,7 +218,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 控制台结果显示：
 
     若校验通过显示：verifyEvidence success：true
-	若校验失败显示：verifyEvidence failed:false
+    若校验失败显示：verifyEvidence failed:false
 
 
 6、获取公钥
@@ -197,11 +238,11 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
     publicKey：公钥
 
 7、合约编译及java Wrap代码生成
- 
-* 下载存证案例工具包
+
+* 下载存证案例工具包（或通过客户端gradle build生成）
 * 智能合约语法及细节参考 <a href="https://solidity.readthedocs.io/en/develop/solidity-in-depth.html">solidity官方文档</a>，合约编译需要下载fisco-solc，具体安装步骤见上文。合约编写可以使用任何文本编辑器（推荐使用sublime或vs code+solidity插件）
 * contracts文件夹中有存证案例的合约源码，bin文件夹为编译执行目录，lib为依赖库，output（不需要新建，脚本会生成）为编译后输出的abi、bin及java文件目录
-* 若想编译自己的智能合约，需要将自己的合约复制到contracts文件夹下。（编译前需要在此文件夹下需要先删掉其他无关合约）
+* 若想编译自己的智能合约，需要将自己的合约复制到contracts文件夹下。
 * 在bin文件夹下compile.sh为编译合约的脚本，执行命令sh compile.sh [参数1：java包名]执行成功后将在output目录生成所有合约对应的abi,bin,java文件，其文件名类似：合约名字.[abi|bin|java]。compile.sh脚本执行步骤实际分为两步，1.首先将sol源文件编译成abi和bin文件，依赖solc工具；2.将bin和abi文件编译java Wrap代码，依赖web3sdk
 
 # 五、存证客户端使用
@@ -273,8 +314,6 @@ List<Type> result2 = evidence.getEvidence().get();
 
 通过调用步骤6中的接口可以获取到证据的完整信息，并且附带有3个角色对证据的签名信息，通过校验公钥是否相同来确定签名的信息是否准确。关键代码如下：
 
-
-
     for (String str : data.getSignatures()) {
         try {
             addressList.add(verifySignedMessage(data.getEvidenceHash(), str));
@@ -294,7 +333,8 @@ List<Type> result2 = evidence.getEvidence().get();
             return false;
         }
     }
-#  六、[FISCO-BCOS中client.keystore 的生成方法](https://github.com/FISCO-BCOS/web3sdk/issues/20)
+# 六、[FISCO-BCOS中client.keystore 的生成方法](https://github.com/FISCO-BCOS/web3sdk/issues/20)
+
 #  七、[web3sdk的使用方式](https://github.com/FISCO-BCOS/web3sdk)
 
 
