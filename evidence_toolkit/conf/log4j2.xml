@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
+	<Properties>
+        <Property name="logPath">./log/</Property>
+    </Properties>
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<!--输出日志的格式 -->
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}(%F:%L) - %m%n" />
 		</Console>
+		<RollingFile name="fileAppender" fileName="${logPath}evidence.log" filePattern="${logPath}evidence.log.%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}(%L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="200 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="24" />
+		</RollingFile>
 	</Appenders>
 
-	<!--根据Logger和Root的定义写入相应的appender格式的日志 -->
 	<Loggers>
-		<Logger name="org.springframework" level="error">
-			<AppenderRef ref="console" />
-		</Logger>
-		<Logger name="org.springframework.context.support" level="error">
-			<AppenderRef ref="console" />
-		</Logger>
-		<Root level="info">
-		</Root>
+		<AsyncRoot level="debug">
+			<AppenderRef ref="fileAppender" />
+        </AsyncRoot>
 	</Loggers>
 </Configuration>

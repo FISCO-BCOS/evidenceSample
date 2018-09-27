@@ -56,6 +56,8 @@ dependencies {
    	runtime 'com.google.guava:guava:19.0'
    	compile files('lib/web3sdk.jar')
 	runtime files('lib/web3sdk.jar')
+	compile 'com.lmax:disruptor:3.3.7'
+   	runtime 'com.lmax:disruptor:3.3.7'
    	// web3j依赖
    	compile 'org.apache.httpcomponents:httpclient:4.5.2',
             'org.bouncycastle:bcprov-jdk15on:1.54',
