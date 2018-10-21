@@ -31,7 +31,6 @@ public class SampleTest {
     public  static String keyStoreFileName = "user.jks";
     public  static String keyStorePassword = "123456";
     public  static String keyPassword = "123456";
-    public String contractAddress ;
 
     @Test
     public void DeployTest() throws Exception {
@@ -42,7 +41,6 @@ public class SampleTest {
         boolean configure = app.loadConfig();
         //此方法需要传入3个参数，参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword
         address = app.deployContract(keyStoreFileName, keyStorePassword, keyPassword);
-        contractAddress = address.toString();
         assertNotNull(address.toString());
 
     }
@@ -53,8 +51,9 @@ public class SampleTest {
         Address address = null;
         Address newEvidenceAddress = null;
         boolean configure = app.loadConfig();
+        address = app.deployContract(keyStoreFileName, keyStorePassword, keyPassword);
         //此方法需要传入3个参数，参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword
-        address = app.newEvidence(keyStoreFileName, keyStorePassword, keyPassword,contractAddress,"id-1","hash-1");
+        address = app.newEvidence(keyStoreFileName, keyStorePassword, keyPassword,address.toString(),"id-1","hash-1");
         System.out.println("deploy factoryContract success, address: " + address.toString());
 
     }
