@@ -31,7 +31,7 @@ public class SampleTest {
     public  static String keyStoreFileName = "user.jks";
     public  static String keyStorePassword = "123456";
     public  static String keyPassword = "123456";
-     public String contractAddress ;
+    public String contractAddress ;
 
     @Test
     public void DeployTest() throws Exception {
