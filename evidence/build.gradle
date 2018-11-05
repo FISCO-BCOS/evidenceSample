@@ -27,7 +27,7 @@ List logger = [
 		'org.slf4j:slf4j-log4j12:1.7.25'
 ]
 
-def spring_version="4.1.8.RELEASE"
+def spring_version="4.3.18.RELEASE"
 List spring =[
 	"org.springframework:spring-core:$spring_version",
 	"org.springframework:spring-beans:$spring_version",
