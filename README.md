@@ -23,7 +23,7 @@
 5. 更新签名机构公私钥（示例演示可以直接使用sample提供公私钥），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的.jks文件，配置和生成公私钥参照下一节中角色公钥配置说明。
 
 6. **生成并替换替换客户端证书**
-master-1.3
+
     存证客户端证书ca.crt, client.keystore生成方法请参考[FISCO-BCOS区块链操作手册的生成sdk证书](https://github.com/FISCO-BCOS/FISCO-BCOS/tree/master-1.3/doc/manual#24-%E7%94%9F%E6%88%90sdk%E8%AF%81%E4%B9%A6)一节。<br>，证书生成后，替换拉取的源码中的ca.crt, client.keystore文件，若使用直接拉取下来的工具包，ca.crt,、client.keystore文件也需替换。
     具体步骤可以参考[sdk.sh](https://github.com/FISCO-BCOS/FISCO-BCOS/blob/master-1.3/cert/sdk.sh),详细解释如下：<br>
     (1)将链的根ca证书ca.crt和次级的机构ca证书agency.crt合成证书链ca证书ca.crt。此证书用来验证sdk连接节点的节点证书的合法性。具体步骤为：<br>
