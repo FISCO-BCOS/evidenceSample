@@ -23,9 +23,9 @@
 5. 更新签名机构公私钥（示例演示可以直接使用sample提供公私钥），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的.jks文件，配置和生成公私钥参照下一节中角色公钥配置说明。
 
 6. **生成并替换替换客户端证书**
-
-    存证客户端证书ca.crt, client.keystore生成方法请参考[FISCO-BCOS区块链操作手册的生成sdk证书](https://github.com/FISCO-BCOS/FISCO-BCOS/tree/master/doc/manual#24-生成sdk证书)一节。<br>，证书生成后，替换拉取的源码中的ca.crt, client.keystore文件，若使用直接拉取下来的工具包，ca.crt,、client.keystore文件也需替换。
-    具体步骤可以参考[sdk.sh](https://github.com/FISCO-BCOS/FISCO-BCOS/blob/master/cert/sdk.sh),详细解释如下：<br>
+master-1.3
+    存证客户端证书ca.crt, client.keystore生成方法请参考[FISCO-BCOS区块链操作手册的生成sdk证书](https://github.com/FISCO-BCOS/FISCO-BCOS/tree/master-1.3/doc/manual#24-%E7%94%9F%E6%88%90sdk%E8%AF%81%E4%B9%A6)一节。<br>，证书生成后，替换拉取的源码中的ca.crt, client.keystore文件，若使用直接拉取下来的工具包，ca.crt,、client.keystore文件也需替换。
+    具体步骤可以参考[sdk.sh](https://github.com/FISCO-BCOS/FISCO-BCOS/blob/master-1.3/cert/sdk.sh),详细解释如下：<br>
     (1)将链的根ca证书ca.crt和次级的机构ca证书agency.crt合成证书链ca证书ca.crt。此证书用来验证sdk连接节点的节点证书的合法性。具体步骤为：<br>
 
     ```shell
@@ -123,7 +123,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 * 存证工具包可以通过存证客户端gradle build生成；或者直接下载，下载https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence_toolkit
 * 下载完成之后建议对bin文件夹下的文件执行chmod命令。
 * 安装fisco-solc,fisco-solc为solidity编译器。
-  下载地址为：https://github.com/FISCO-BCOS/FISCO-BCOS/fisco-solc
+  下载地址为：https://github.com/FISCO-BCOS/fisco-solc
   fisco-solc安装：将fisco-solc拷贝到系统的/usr/bin目录下，执行命令chmod +x  fisco-solc。
 * 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本，runEvidence.sh为存证的一键默认执行脚本，脚本中将存证sample工具包的执行命令进行封装。
 * 根据实际需求更新公私钥（需要3组），公钥以key-value的形式在applicationContext.xml中配置，私钥更新需要替换conf文件下的.jks私钥文件。若无特殊需求可以不用更新公私钥,直接使用默认配置即可。
