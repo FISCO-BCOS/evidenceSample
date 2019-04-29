@@ -18,14 +18,14 @@ contract EvidenceSignersData{
 		}
 
     function verify(address addr)public constant returns(bool){
-            for(uint i=0; i<signers.length; ++i) {
-            if (addr == signers[i])
-            {
-                return true;
-            }
+    for(uint i=0; i<signers.length; ++i) {
+        if (addr == signers[i])
+        {
+            return true;
         }
-        return false;
     }
+    return false;
+}
 
     function getSigner(uint index)public constant returns(address){
         uint listSize = signers.length;

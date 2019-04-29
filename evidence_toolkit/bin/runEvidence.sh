@@ -1,5 +1,6 @@
 #!/bin/bash
 
+chmod a+x evidence
 
 dirpath="$(cd "$(dirname "$0")" && pwd)"
 
