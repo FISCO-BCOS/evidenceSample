@@ -13,7 +13,7 @@ cd $dirpath"/../contracts"
 
 echo "to compile and generate files ..."
 WEB3J=$dirpath"/../bin/evidence"
-SOLC=`which fisco-solc`
+SOLC=`which solc`
 Output=$dirpath"/../output"
 Package=$1
 Contracts=$dirpath"/../contracts"

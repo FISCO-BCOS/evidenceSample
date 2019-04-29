@@ -14,6 +14,8 @@ repositories {
          url "http://maven.aliyun.com/nexus/content/groups/public/"
     }
 
+	maven { url "https://dl.bintray.com/ethereum/maven/" }
+
     mavenLocal()
     mavenCentral()
 }
@@ -45,7 +47,9 @@ List spring =[
 dependencies {
     compile logger,spring,alibaba
     runtime logger,spring,alibaba
-    
+
+	compile ("org.fisco-bcos:web3sdk:2.0.0-rc1")
+	
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
     runtime "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
     compile 'io.netty:netty-all:4.1.15.Final'
@@ -54,15 +58,16 @@ dependencies {
     runtime 'io.netty:netty-tcnative:2.0.0.Final'
    	compile 'com.google.guava:guava:19.0'
    	runtime 'com.google.guava:guava:19.0'
-   	compile files('lib/web3sdk.jar')
-	runtime files('lib/web3sdk.jar')
-   	// web3j依赖
-   	compile 'org.apache.httpcomponents:httpclient:4.5.2',
-            'org.bouncycastle:bcprov-jdk15on:1.54',
-            'com.lambdaworks:scrypt:1.4.0',
-            'com.squareup:javapoet:1.7.0',
-            'io.reactivex:rxjava:1.2.4',
-			'com.github.jnr:jnr-unixsocket:0.15'
+	
+	// web3j
+	compile 'org.apache.httpcomponents:httpclient:4.5.2',
+			'org.bouncycastle:bcprov-jdk15on:1.54',
+			'com.lambdaworks:scrypt:1.4.0',
+			'com.squareup:javapoet:1.7.0',
+			'io.reactivex:rxjava:1.2.4',
+			'com.github.jnr:jnr-unixsocket:0.15',
+			'io.reactivex.rxjava2:rxjava:2.2.2',
+			'io.bretty:console-table-builder:1.2'
 }
 
 sourceSets {
@@ -77,7 +82,7 @@ sourceSets {
 }
 
 jar {
-	destinationDir file('evidence/lib')
+	destinationDir file('dist/apps')
 	archiveName project.name + '.jar'
 	exclude '**/*.xml'
 	exclude '**/*.properties'
@@ -85,23 +90,23 @@ jar {
     doLast {
         copy {
             from file('src/main/resources/')
-            into 'evidence/conf'
+            into 'dist/conf'
         }
 		copy {
 			from configurations.runtime
-			into 'evidence/lib'
+			into 'dist/lib'
 		}
 		copy {
 			from file('.').listFiles().findAll{File f -> (f.name.endsWith('.bat') || f.name.endsWith('.sh') || f.name.endsWith('.env'))}
-			into 'evidence'
+			into 'dist'
 		}
 		copy {
 			from file('src/main/executive/sol')
-			into 'evidence/contracts'
+			into 'dist/contracts'
 		}
 		copy {
 			from file('src/main/executive/shell')
-			into 'evidence/bin'
+			into 'dist/bin'
 		}
 	}
 }

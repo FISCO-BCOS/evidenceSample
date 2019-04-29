@@ -3,7 +3,7 @@ package org.bcos.evidence.app;
 import java.util.List;
 
 import org.bcos.evidence.sample.EvidenceData;
-import org.bcos.web3j.abi.datatypes.Address;
+import org.fisco.bcos.web3j.abi.datatypes.Address;
 
 
 public class Main {
@@ -37,13 +37,13 @@ public class Main {
 		 	case "deploy":
 		 		//此方法需要传入3个参数，参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword
 		 		address=app.deployContract(args[1],args[2],args[3]);
-		 		System.out.println("deploy factoryContract success, address: " + address.toString());
+		 		System.out.println("-----------deploy factoryContract success, address: " + address.toString());
 		 		break;
 		 	//newEvidence
 		 	case "new":
 		 		//参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword,传入的参数需要部署的工厂合约地址,evidence_id、evidence_hash
 		 		newEvidenceAddress=app.newEvidence(args[1],args[2],args[3],args[4],args[5],args[6]);
-		 		System.out.println("newEvidence success, newEvidenceAddress: " + newEvidenceAddress.toString());
+		 		System.out.println("------------newEvidence success, newEvidenceAddress: " + newEvidenceAddress.toString());
 		 		break;
 		 	//sendSignatureToBlockChain
 		 	case "send":
@@ -52,9 +52,9 @@ public class Main {
 		 		EvidenceData evidenceData2 = app.getEvidence(args[1],args[2],args[3],args[4]);
 		 		boolean falg = app.sendSignatureToBlockChain(args,evidenceData2.getEvidenceHash());
 		 		if(falg){
-		 			System.out.println("sendSignatureToBlockChain success！"+falg);
+		 			System.out.println("-----------sendSignatureToBlockChain success！"+falg);
 		 		}else{
-		 			System.out.println("sendSignatureToBlockChain failed！"+falg);
+		 			System.out.println("------------sendSignatureToBlockChain failed！"+falg);
 		 		}
 		 		break;
 		 	//getEvidence
@@ -79,14 +79,14 @@ public class Main {
 		 		EvidenceData evidenceData1 = app.getEvidence(args[1],args[2],args[3],args[4]);
 		 		boolean flag=app.verifyEvidence(evidenceData1);
 		 		if(flag){
-		 			System.out.println("verifyEvidence success:"+flag);
+		 			System.out.println("--------verifyEvidence success:"+flag);
 		 		}else{
-		 			System.out.println("verifyEvidence failed:"+flag);
+		 			System.out.println("--------verifyEvidence failed:"+flag);
 		 		}
 		 		break;
 		 	case "getPublicKey":
 		 		String publicKey=app.getPublicKey(args[1], args[2], args[3]);
-		 		System.out.println("publicKey:"+publicKey);
+		 		System.out.println("---------publicKey:"+publicKey);
 		 		break;
 		 	default:
                  break;

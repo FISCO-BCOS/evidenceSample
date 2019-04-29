@@ -21,23 +21,26 @@
 			<bean class="java.util.concurrent.ThreadPoolExecutor.AbortPolicy" />
 		</property>
 	</bean>
-	
-    <!-- 区块链节点信息配置 -->
-    <bean id="channelService" class="org.bcos.channel.client.Service">
-		<property name="orgID" value="User" />
+
+	<bean id="groupChannelConnectionsConfig" class="org.fisco.bcos.channel.handler.GroupChannelConnectionsConfig">
 		<property name="allChannelConnections">
-			<map>
- 				<entry key="User">
- 					<bean class="org.bcos.channel.handler.ChannelConnections">
- 						<property name="connectionsStr">
- 							<list> 
- 								<value>b02b23fafd1b12df773dc6e92f497ae453e09d58551e6dcfedb9516a9c797069cc3631be8462da366b9440d9e8062b2eb0ea3bccede44609a5e1be98ff4bef7b@127.0.0.1:8541</value>
- 							</list>
- 						</property>
- 					</bean>
-				</entry>
-			</map>
+			<list>
+				<bean id="group1"  class="org.fisco.bcos.channel.handler.ChannelConnections">
+					<property name="groupId" value="1" />
+					<property name="connectionsStr">
+						<list>
+							<value>127.0.0.1:20200</value>
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
+	</bean>
+
+	<bean id="channelService" class="org.fisco.bcos.channel.client.Service" depends-on="groupChannelConnectionsConfig">
+		<property name="groupId" value="1" />
+		<property name="orgID" value="fisco" />
+		<property name="allChannelConnections" ref="groupChannelConnectionsConfig"></property>
 	</bean>
 	
 	<!-- 公钥信息配置 -->
