@@ -38,7 +38,6 @@ public class BcosApp {
 	
 	public static BigInteger gasPrice = new BigInteger("99999999999");
 	public static BigInteger gasLimited = new BigInteger("9999999999999");
-	public static BigInteger initialValue = new BigInteger("0");
 	
 	public BcosApp() {
 		evidenceSignersData =null;
