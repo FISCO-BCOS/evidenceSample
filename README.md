@@ -26,7 +26,7 @@
 # 进入~目录
 # 拷贝节点证书到项目的资源目录
 $ cd ~
-$ cp fisco/nodes/127.0.0.1/sdk/* asset-app/src/test/resources/
+$ cp fisco/nodes/127.0.0.1/sdk/* evidence/src/main/resources
 ```
 - applicationContext.xml是从fisco/nodes/127.0.0.1/sdk/复制而来，已默认配置好，不需要做额外修改。配置说明具体参照第三节区块链节点信息配置。
     
@@ -93,7 +93,13 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 * 下载完成之后建议对bin文件夹下的文件执行chmod命令。
 * 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本，runEvidence.sh为存证的一键默认执行脚本，脚本中将存证sample工具包的执行命令进行封装。
 * 根据实际需求更新公私钥（需要3组），公钥以key-value的形式在applicationContext.xml中配置，私钥更新需要替换conf文件下的.jks私钥文件。若无特殊需求可以不用更新公私钥,直接使用默认配置即可。
-* 替换工具包证书和applicationContext.xml配置文件，具体参照上文。
+* 替换工具包证书和applicationContext.xml配置文件.
+```
+# 进入~目录
+# 拷贝节点证书和配置文件到conf目录
+$ cd ~
+$ cp fisco/nodes/127.0.0.1/sdk/* evidence_toolkit/conf
+```
 
 1、工厂合约部署
 
