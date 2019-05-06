@@ -48,7 +48,7 @@ dependencies {
     compile logger,spring,alibaba
     runtime logger,spring,alibaba
 
-	compile ("org.fisco-bcos:web3sdk:2.0.0-rc1")
+	compile ("org.fisco-bcos:web3sdk:2.0.0-rc2")
 	
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
     runtime "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
