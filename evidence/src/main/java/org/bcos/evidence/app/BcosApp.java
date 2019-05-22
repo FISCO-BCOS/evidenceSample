@@ -52,7 +52,7 @@ public class BcosApp {
         service.run();
         ChannelEthereumService channelEthereumService = new ChannelEthereumService();
         channelEthereumService.setChannelService(service);
-        web3j = Web3j.build(channelEthereumService);
+        web3j = Web3j.build(channelEthereumService,service.getGroupId());
         boolean flag=false;
         if(web3j!=null){
         	flag=true;
