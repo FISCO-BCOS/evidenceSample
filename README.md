@@ -101,6 +101,18 @@ $ cp fisco/nodes/127.0.0.1/sdk/* evidence_toolkit/conf
 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本，runEvidence.sh为存证的一键默认执行脚本，脚本中将存证sample工具包的执行命令进行封装。
 
 ####  存证案例工具包分步操作步骤
+
+
+版本兼容说明: 
+
+evidence 目前适配的 FISCO-BCOS 版本是 release-2.0.0-rc2。
+如果使用后续的 FISCO-BCOS 版本可能会出现执行报错的问题，这时可尝试通过下载 FISCO-BCOS 版本配套的 web3sdk ，编译生成 web3sdk.jar 文件 ，然后替换 evidence/dist/lib  目录下对应的 web3sdk-2.0.0-rc2.jar 文件进行解决
+
+```
+web3sdk 下载地址
+https://github.com/FISCO-BCOS/web3sdk.git
+```
+
 1、工厂合约部署
 
 进入到bin文件下，输入以下命令：
