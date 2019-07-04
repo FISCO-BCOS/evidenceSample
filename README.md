@@ -105,13 +105,7 @@ $ cp fisco/nodes/127.0.0.1/sdk/* evidence_toolkit/conf
 
 版本兼容说明: 
 
-evidence 目前适配的 FISCO-BCOS 版本是 release-2.0.0-rc2。
-如果使用后续的 FISCO-BCOS 版本可能会出现执行报错的问题，这时可尝试通过下载 FISCO-BCOS 版本配套的 web3sdk ，编译生成 web3sdk.jar 文件 ，然后替换 evidence/dist/lib  目录下对应的 web3sdk-2.0.0-rc2.jar 文件进行解决
-
-```
-web3sdk 下载地址
-https://github.com/FISCO-BCOS/web3sdk.git
-```
+evidence 目前适配的 FISCO-BCOS 版本是 v2.0.0-rc2, 新版本正在紧张适配中。
 
 1、工厂合约部署
 
