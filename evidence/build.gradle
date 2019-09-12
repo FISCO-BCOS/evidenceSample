@@ -2,7 +2,7 @@ apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-//指定JDK版本,改成系统中版本
+// Specify the JDK version and change it to the system version
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -15,15 +15,11 @@ repositories {
     }
 
 	maven { url "https://dl.bintray.com/ethereum/maven/" }
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
     mavenLocal()
     mavenCentral()
 }
-
-List alibaba = [
- 	'com.alibaba:druid:1.0.29',
- 	'com.alibaba:fastjson:1.2.29'
-]
 
 List logger = [
 	"org.slf4j:jul-to-slf4j:1.7.10",
@@ -33,41 +29,12 @@ List logger = [
 	"org.apache.logging.log4j:log4j-web:2.1"
 ]
 
-def spring_version="4.1.8.RELEASE"
-List spring =[ 
-	"org.springframework:spring-core:$spring_version", 
-	"org.springframework:spring-beans:$spring_version", 
-	"org.springframework:spring-context:$spring_version", 
-	"org.springframework:spring-tx:$spring_version", 
-	"org.springframework:spring-jdbc:$spring_version", 
-	"org.springframework:spring-test:$spring_version"
-]
-
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile logger,spring,alibaba
-    runtime logger,spring,alibaba
+    compile logger
+    runtime logger
 
-	compile ("org.fisco-bcos:web3sdk:2.0.4")
-	
-    compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
-    runtime "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
-    compile 'io.netty:netty-all:4.1.15.Final'
-    runtime 'io.netty:netty-all:4.1.15.Final'
-    compile 'io.netty:netty-tcnative:2.0.0.Final'
-    runtime 'io.netty:netty-tcnative:2.0.0.Final'
-   	compile 'com.google.guava:guava:19.0'
-   	runtime 'com.google.guava:guava:19.0'
-	
-	// web3j
-	compile 'org.apache.httpcomponents:httpclient:4.5.2',
-			'org.bouncycastle:bcprov-jdk15on:1.54',
-			'com.lambdaworks:scrypt:1.4.0',
-			'com.squareup:javapoet:1.7.0',
-			'io.reactivex:rxjava:1.2.4',
-			'com.github.jnr:jnr-unixsocket:0.15',
-			'io.reactivex.rxjava2:rxjava:2.2.2',
-			'io.bretty:console-table-builder:1.2'
+	compile ("org.fisco-bcos:web3sdk:2.1.0.05-SNAPSHOT")
 }
 
 sourceSets {
@@ -86,6 +53,9 @@ jar {
 	archiveName project.name + '.jar'
 	exclude '**/*.xml'
 	exclude '**/*.properties'
+	exclude '**/*.jks'
+	exclude '**/*.crt'
+	exclude '**/*.key'
 
     doLast {
         copy {

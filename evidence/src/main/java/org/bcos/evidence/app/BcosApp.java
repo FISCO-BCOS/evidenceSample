@@ -68,8 +68,8 @@ public class BcosApp {
 		if(credentials==null){
 			return null;
 		}
-	    Service service = context.getBean(Service.class);
-	    service.run();
+	    //Service service = context.getBean(Service.class);
+	    //service.run();
 	    PublicAddressConf conf = context.getBean(PublicAddressConf.class);
         ConcurrentHashMap<String, String> addressConf = conf.getAllPublicAddress();
         List<String> arrayList = addressConf.values().stream().map(String::new).collect(Collectors.toCollection(ArrayList::new));

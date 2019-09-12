@@ -23,6 +23,9 @@
 	</bean>
 
 	<bean id="groupChannelConnectionsConfig" class="org.fisco.bcos.channel.handler.GroupChannelConnectionsConfig">
+		<property name="caCert" value="ca.crt" />
+		<property name="sslCert" value="sdk.crt" />
+		<property name="sslKey" value="sdk.key" />
 		<property name="allChannelConnections">
 			<list>
 				<bean id="group1"  class="org.fisco.bcos.channel.handler.ChannelConnections">
