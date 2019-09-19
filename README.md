@@ -1,6 +1,6 @@
 <center> <h1>区块链存证案例使用说明</h1> </center>
 
-**全新适配FISCO-BCOS 2.0.0版本，如果使用FISCO-BCOS 1.2或1.3版本请用[v1.0.0版本](https://github.com/FISCO-BCOS/evidenceSample/releases/tag/v1.0.0)。**
+**全新适配FISCO-BCOS 2.0+版本，如果使用FISCO-BCOS 1.2或1.3版本请用[v1.0.0版本](https://github.com/FISCO-BCOS/evidenceSample/releases/tag/v1.0.0)。**
 
 # 一、 背景介绍
 * FISCO-BCOS区块链存证是聚焦于企业级应用服务的区块链技术平台，从电子数据的全生命周期介入，实现区块链存证、取证、维权、核证，让司法机构参与到业务过程中，实时见证，为后续的证据核实、纠纷解决、裁决送达提供了可信、可追溯、可证明的技术保障。适用场景：金融行业网络信贷、消费金融、理财等，重点解决可信和司法认可。 <br><br>
@@ -13,7 +13,7 @@
 
 # 二、存证案例运行环境搭建
 
-1.  本文档使用4个区块链节点来模拟区块链环境，请参考 [安装文档](https://fisco-bcos-documentation.readthedocs.io/zh_CN/release-2.0/docs/installation.html) 完成FISCO BCOS区块链的搭建和控制台的下载工作，本教程中的操作假设在该文档搭建的环境下进行。
+1.  本文档使用4个区块链节点来模拟区块链环境，请参考 [安装文档](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/installation.html) 完成FISCO BCOS区块链的搭建和控制台的下载工作，本教程中的操作假设在该文档搭建的环境下进行。
 2.  更新签名机构公私钥（**示例演示可以直接使用sample提供公私钥，jks文件**），公钥在applicationContext.xml文件中配置，私钥需替换/evidence/src/main/resources下的.jks文件，配置和生成公私钥参照下一节中角色公钥配置说明。
 3.  SDK证书
 ```
@@ -81,7 +81,7 @@ evidence/src/main/resources/applicationContext.xml文件配置说明
 ```
 # 四、存证案例工具包使用说明
 
-本节提供使用示例工具包，以便开发者能够快速熟悉存证应用。在工具包中，bin文件下为执行脚本，conf文件夹下为工具包配置文件，lib文件下为存证案例依赖包,contracts中存放合约源码（合约java代码生成可以参照[4.7](https://fisco-bcos-documentation.readthedocs.io/zh_CN/release-2.0/docs/tutorial/sdk_application.html#id7)）
+本节提供使用示例工具包，以便开发者能够快速熟悉存证应用。在工具包中，bin文件下为执行脚本，conf文件夹下为工具包配置文件，lib文件下为存证案例依赖包,contracts中存放合约源码（合约java代码生成可以参照[4.7](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/tutorial/sdk_application.html#id7)）
 
 #### 存证案例工具包环境初始化
 
@@ -101,11 +101,6 @@ $ cp fisco/nodes/127.0.0.1/sdk/* evidence_toolkit/conf
 若想查看完整的执行过程，可执行存证工具包bin文件下runEvidence.sh脚本，runEvidence.sh为存证的一键默认执行脚本，脚本中将存证sample工具包的执行命令进行封装。
 
 ####  存证案例工具包分步操作步骤
-
-
-版本兼容说明: 
-
-evidence 目前适配的 FISCO-BCOS 版本是 v2.0.0-rc2, 新版本正在紧张适配中。
 
 1、工厂合约部署
 
@@ -216,7 +211,7 @@ evidence 目前适配的 FISCO-BCOS 版本是 v2.0.0-rc2, 新版本正在紧张�
 
 7、合约编译及java Wrap代码生成
 
-* 参考[合约转换](https://fisco-bcos-documentation.readthedocs.io/zh_CN/release-2.0/docs/tutorial/sdk_application.html#id7)
+* 参考[合约转换](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/tutorial/sdk_application.html#id7)
 
 # 五、存证客户端使用
 
