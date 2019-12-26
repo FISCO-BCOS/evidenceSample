@@ -34,7 +34,7 @@ dependencies {
     compile logger
     runtime logger
 
-	compile ("org.fisco-bcos:web3sdk:2.2.0.1225-SNAPSHOT")
+	compile ("org.fisco-bcos:web3sdk:2.2.0")
 }
 
 sourceSets {
