@@ -21,20 +21,44 @@ repositories {
     mavenCentral()
 }
 
-List logger = [
-	"org.slf4j:jul-to-slf4j:1.7.10",
-	"org.apache.logging.log4j:log4j-api:2.1",
-	"org.apache.logging.log4j:log4j-core:2.1",
-	"org.apache.logging.log4j:log4j-slf4j-impl:2.1",
-	"org.apache.logging.log4j:log4j-web:2.1"
+def log4j_version="2.13.3"
+List log4j = [
+    "org.apache.logging.log4j:log4j-api:$log4j_version",
+    "org.apache.logging.log4j:log4j-core:$log4j_version",
+    "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version",
+    "org.apache.logging.log4j:log4j-web:$log4j_version"
+]
+
+List jaxb = [
+     "javax.xml.bind:jaxb-api:2.3.0",
+     "com.sun.xml.bind:jaxb-impl:2.3.0",
+     "com.sun.xml.bind:jaxb-core:2.3.0",
+     "javax.activation:activation:1.1.1"
+]
+
+def jackson_version = "2.11.0"
+List jackson = [
+    "com.fasterxml.jackson.core:jackson-databind:$jackson_version",
+    "com.fasterxml.jackson.core:jackson-annotations:$jackson_version",
+    "com.fasterxml.jackson.core:jackson-core:$jackson_version",
+    "com.fasterxml.jackson.module:jackson-module-parameter-names:$jackson_version",
+    "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_version",
+    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
 ]
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile logger
-    runtime logger
+    compile log4j,jaxb,jackson
 
-	compile ("org.fisco-bcos:web3sdk:2.3.0")
+	compile ("org.fisco-bcos:web3sdk:2.5.1")
+}
+
+configurations {
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    all*.exclude group: 'log4j', module: 'log4j'
+    all*.exclude group: 'com.mchange', module: '*'
+    all*.exclude group: 'org.apache.commons', module: 'commons-collections4'
 }
 
 sourceSets {
