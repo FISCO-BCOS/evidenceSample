@@ -215,7 +215,8 @@ $ cp fisco/nodes/127.0.0.1/sdk/* evidence_toolkit/conf
 
 # 五、存证客户端使用
 
-存证客户端用java编写，可将工程导入Eclipse做二次开发。二次开发工程URL为：https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence。其入口为org.bcos.evidence.app.Main类，客户端中对合约的调用主要包括：web3j的初始化，合约对象部署，载入已经部署的合约，创建证据，发送签名数据，获取证据信息，以及证据校验。区块链应用程序实际是通过web3j生成的java Wrapper类(详细介绍参看4.7合约编译及java Wrap代码生成)，通过jsonRPC调用和FISCO-BCOS客户端节点通信，再由客户端返回jsonRPC请求响应。
+存证客户端用java编写，可将工程导入Eclipse做二次开发。二次开发工程URL为：https://github.com/FISCO-BCOS/evidenceSample/tree/master/evidence。
+其入口为org.bcos.evidence.app.Main类，客户端中对合约的调用主要包括：web3j的初始化，合约对象部署，载入已经部署的合约，创建证据，发送签名数据，获取证据信息，以及证据校验。区块链应用程序实际是通过web3j生成的java Wrapper类(详细介绍参看4.7合约编译及java Wrap代码生成)，通过jsonRPC调用和FISCO-BCOS客户端节点通信，再由客户端返回jsonRPC请求响应。
 
 1、web3j初始化 
 
