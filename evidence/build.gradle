@@ -51,6 +51,9 @@ dependencies {
     compile log4j,jaxb,jackson
 
 	compile ("org.fisco-bcos:web3sdk:2.6.4")
+	{
+            exclude group: 'org.ethereum', module: "solcJ-all"
+        }
 }
 
 configurations {
